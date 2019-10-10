@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { TextInput, Button } from 'react-native';
+import { TextInput, Button, StyleSheet } from 'react-native';
+// import { green, yellow } from 'ansi-colors';
 // import { SearchBar } from 'react-native-elements';
 
 export default class Search extends Component {
@@ -15,9 +16,9 @@ export default class Search extends Component {
         console.log(this.state.search)
     };
 
-    doFetch() {
+    doFetch = () => {
         // const {search} = this.state;
-        // console.log(search)
+        console.log("doFetch ran")
 
         let url = "https://en.wikipedia.org/w/api.php";
         const params = {
@@ -33,16 +34,25 @@ export default class Search extends Component {
         Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
         console.log(url);
 
-        return fetch('url')
-          .then(response => response.json())
-          .then(responseJson => {
-            this.props.renderList(responseJson)
-          }).then(
-            //     this.setState({
-            //       search: ''
-            //   })
-            console.log(responseJson)
-          )
+        return fetch('url', {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json',}
+        })
+          .then(res => {
+            if(!res.ok) {
+            throw new Error('Something went wrong, please try again later');
+            console.log(res.status);
+          }
+          return res.json();
+        }).then(data => {
+            console.log(data);
+            this.props.renderList(data)
+          })
+        //   .then(
+        //         this.setState({
+        //           search: ''
+        //       })
+        //   )
           .catch(error => {
             console.error(error);
           });
@@ -56,14 +66,29 @@ export default class Search extends Component {
             <TextInput
                 placeholder="Type Here..."
                 onChangeText={this.updateSearch}
+                style={styles.searchBox}
+                onSubmitEditing = {this.doFetch}
             />
-            <Button
+            {/* <Button
                 title="Search"
                 onPress={this.doFetch}
-            />
+                style={styles.button}
+            /> */}
         </>
     
       )
     }
   }
   
+  const styles = StyleSheet.create({
+     searchBox: {
+        paddingLeft: 12,
+        paddingRight: 12,
+        paddingTop: 6,
+        paddingBottom: 6,
+        borderColor: '#dfdfdf',
+        borderWidth: 1,
+        borderRadius: 25,
+        marginBottom: 20
+      }
+  });
