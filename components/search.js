@@ -17,14 +17,11 @@ export default class Search extends Component {
     };
 
     doFetch = () => {
-        // const {search} = this.state;
-        console.log("doFetch ran")
 
         let url = "https://en.wikipedia.org/w/api.php";
         const params = {
             action: "opensearch",
             search: this.state.search,
-            // search: "Niagara Falls",
             limit: "5",
             namespace: "0",
             format: "json"

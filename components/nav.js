@@ -12,22 +12,19 @@ export default function Nav() {
             <Button
                 title="Search"
                 style={styles.button1}
-                onPress={() => Linking.openURL('https://anthem.com')}
+                onPress={() => props.navigation.push('/')}
             />
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    nav: {
-
-    },
     button1: {
         paddingLeft: 12,
         paddingRight: 12,
         paddingTop: 6,
         paddingBottom: 6,
-        borderColor: '#dfdfdf',
+        borderColor: '#545454',
         borderWidth: 1,
     },
     button2: {
